@@ -1,7 +1,6 @@
 package global.security;
 
 import domain.auth.dto.JwtTokenDto;
-import domain.user.service.CustomUserDetailsService;
 import global.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -62,12 +60,8 @@ public class JwtTokenProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        try {
-            var userDetail = customUserDetailsService.loadUserByUsername((String) authentication.getCredentials());
-            return new JwtAuthenticationToken(null, userDetail);
-        } catch (UsernameNotFoundException ex) {
-            throw new RuntimeException(); // TODO : 예외 처리 보강
-        }
+        var userDetail = customUserDetailsService.loadUserByUsername((String) authentication.getCredentials());
+        return new JwtAuthenticationToken(null, userDetail);
     }
 
     @Override

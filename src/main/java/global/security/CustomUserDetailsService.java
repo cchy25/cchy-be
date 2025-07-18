@@ -1,5 +1,7 @@
 package global.security;
 
+import domain.auth.exception.AuthenticationErrorCode;
+import domain.auth.exception.AuthenticationException;
 import domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = (UserDetails) userRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException("일치하지 않는 이메일입니다."));
-        return user;
+        return userRepository.findByEmail(email)
+                .orElseThrow(()-> new AuthenticationException(AuthenticationErrorCode.INVALID_CREDENTIALS));
     }
 }
