@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class JwtProperties {
 
-    private String secretKey;
-    private Long accessTokenExp;
+    private final String secretKey;
+    private final Long accessTokenExp;
 }
 
