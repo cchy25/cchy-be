@@ -1,6 +1,5 @@
 package hackerthon.cchy.cchy25.domain.auth.controller;
 
-import domain.auth.dto.*;
 import hackerthon.cchy.cchy25.domain.auth.dto.*;
 import hackerthon.cchy.cchy25.domain.auth.service.AuthService;
 import hackerthon.cchy.cchy25.domain.user.entity.User;
