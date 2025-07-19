@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  cchy-be:
+    container_name: "cchy-mysql"
+    image: "mysql:8.0"
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "25cchyroot"
