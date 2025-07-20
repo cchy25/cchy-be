@@ -31,6 +31,7 @@ public class AuthController {
 
     @GetMapping("/auth/health")
     public ResponseEntity<?> health() {
+        log.info("test");
         return ResponseEntity.ok("ok");
     }
 
@@ -57,8 +58,24 @@ public class AuthController {
 
     @PostMapping("/auth/signup")
     public ResponseEntity<?> signup(@RequestBody UserSignUpRequest userSignUpRequest) {
-        authService.signup(userSignUpRequest);
-        return ResponseEntity.ok(null);
+        var jwtTokenDto = authService.signup(userSignUpRequest);
+
+        var userLoginResponse = UserLoginResponse.builder()
+                .accessToken(jwtTokenDto.accessToken())
+                .build();
+
+        var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
+//                .httpOnly(true)
+//                .secure(true)
+                .path("/api/v1/auth")
+                .sameSite("None")
+                .maxAge(Duration.ofHours(1))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(userLoginResponse);
     }
 
     @PostMapping("/auth/logout")

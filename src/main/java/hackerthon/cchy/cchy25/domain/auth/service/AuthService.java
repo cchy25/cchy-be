@@ -48,7 +48,8 @@ public class AuthService {
         return jwtTokenDto;
     }
 
-    public void signup(UserSignUpRequest userSignUpRequest) {
+    @Transactional
+    public JwtTokenDto signup(UserSignUpRequest userSignUpRequest) {
         if (userRepository.existsByUsername(userSignUpRequest.username())) {
             throw new AuthenticationException(AuthenticationErrorCode.DUPLICATE_USERNAME);
         }
@@ -68,6 +69,8 @@ public class AuthService {
                 .build();
 
         userRepository.save(newUser);
+
+        return jwtTokenProvider.createToken(newUser.getId(), false);
     }
 //
 //    @Transactional

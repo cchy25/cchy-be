@@ -39,5 +39,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //TODO : UsernanmeNotFount 예외처리 필요
 
         }
+        filterChain.doFilter(request, response);
     }
 }
