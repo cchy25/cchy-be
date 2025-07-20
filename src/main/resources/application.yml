@@ -7,16 +7,15 @@ spring:
       enabled: ALWAYS
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: "jdbc:h2:mem:kakaoauth_db"
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/cchy"
+    username: root
+    password: 25cchyroot
 
-  h2:
-    console:
-      enabled: true
-      path: "/h2-console"
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 jwt:
-  secretKey: "1231234guihbasd89y12h2b3kjasjd09u12h3j12312asoifoih123"
-  accessTokenExp: 900
+  secret-key: "1231234guihbasd89y12h2b3kjasjd09u12h3j12312asoifoih123"
+  access-token-exp: 900
