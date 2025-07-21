@@ -22,7 +22,6 @@ public class SocialAccount {
     @Column(unique = true, nullable = false)
     private String socialId;
 
-    @ManyToOne
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }
