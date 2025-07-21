@@ -35,6 +35,7 @@ public class User extends BaseEntity implements UserDetails {
     private List<SocialAccount> socialAccounts = new ArrayList<>();
 
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -59,7 +60,7 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
-
+  
     public void addSocialAccount(SocialAccount socialAccount) {
         this.socialAccounts.add(socialAccount);
     }

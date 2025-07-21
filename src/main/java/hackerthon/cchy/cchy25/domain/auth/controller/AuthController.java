@@ -78,6 +78,7 @@ public class AuthController {
     }
 
 
+
     @PostMapping("/auth/signup")
     public ResponseEntity<?> signup(@RequestBody UserSignUpRequest userSignUpRequest) {
         var jwtTokenDto = authService.signup(userSignUpRequest);

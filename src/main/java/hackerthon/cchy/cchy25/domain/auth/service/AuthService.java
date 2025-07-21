@@ -122,8 +122,6 @@ public class AuthService {
         return jwtTokenProvider.createToken(newUser.getId(), false);
     }
 
-
-
 //
 //    @Transactional
 //    public void logout(Long userId, String accessToken, String refreshToken) {

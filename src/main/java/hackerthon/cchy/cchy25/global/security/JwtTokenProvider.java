@@ -64,6 +64,7 @@ public class JwtTokenProvider implements AuthenticationProvider {
 
 
 
+
     public Claims extractClaims(String accessToken) {
         return Jwts.parserBuilder()
                 .setSigningKey(jwtProperties.getSecretKey())
