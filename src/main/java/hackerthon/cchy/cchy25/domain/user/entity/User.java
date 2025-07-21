@@ -1,11 +1,13 @@
 package hackerthon.cchy.cchy25.domain.user.entity;
 
 import hackerthon.cchy.cchy25.common.entity.BaseEntity;
+import hackerthon.cchy.cchy25.domain.auth.entity.SocialAccount;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +29,11 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
 
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<SocialAccount> socialAccounts = new ArrayList<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,5 +58,9 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void addSocialAccount(SocialAccount socialAccount) {
+        this.socialAccounts.add(socialAccount);
     }
 }

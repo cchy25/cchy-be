@@ -5,6 +5,7 @@ import lombok.Builder;
 @Builder
 public record JwtTokenDto(
         String accessToken,
-        String refreshToken
+        String refreshToken,
+        String signupToken
 ) {
 }
