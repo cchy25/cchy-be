@@ -7,6 +7,8 @@ public record UserSignUpRequest(
         String email,
         String username,
         String password,
-        String confirmPassword
+        String confirmPassword,
+        SocialType socialType,
+        String signupToken
 ) {
 }

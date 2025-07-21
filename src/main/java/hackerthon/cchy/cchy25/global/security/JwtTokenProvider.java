@@ -33,7 +33,7 @@ public class JwtTokenProvider implements AuthenticationProvider {
                         Date.from(Instant.now().plusSeconds(ACCESS_TOKEN_EXPIRATION))
                 )
                 .setSubject(userId.toString())
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()) // 서명도 필요해요!
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
 
         var refreshToken = Jwts.builder()
@@ -44,11 +44,26 @@ public class JwtTokenProvider implements AuthenticationProvider {
                                 REFRESH_TOKEN_EXPIRATION))
                 )
                 .setSubject(userId.toString())
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()) // 서명도 필요해요!
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
 
-        return new JwtTokenDto(accessToken, refreshToken);
+        return new JwtTokenDto(accessToken, refreshToken, null);
     }
+
+    public JwtTokenDto createSignupToken(String socialId) {
+        var signupToken =  Jwts.builder()
+                .setId(UUID.randomUUID().toString())
+                .setExpiration(
+                        Date.from(Instant.now().plusSeconds(ACCESS_TOKEN_EXPIRATION))
+                )
+                .setSubject(socialId)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .compact();
+        return new JwtTokenDto(null, null, signupToken);
+    }
+
+
+
 
     public Claims extractClaims(String accessToken) {
         return Jwts.parserBuilder()

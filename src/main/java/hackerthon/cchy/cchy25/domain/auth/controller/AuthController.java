@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<?> localLogin(@RequestBody UserLoginRequest userLoginRequest) {
         var jwtTokenDto = authService.login(userLoginRequest);
         var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
 //                .httpOnly(true)
@@ -55,6 +55,29 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
                 .body(userLoginResponse);
     }
+
+    @PostMapping("/auth/social-login")
+    public ResponseEntity<?> socialLogin(@RequestBody UserLoginRequest userLoginRequest) {
+        var jwtTokenDto = authService.socialLogin(userLoginRequest);
+        var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
+//                .httpOnly(true)
+//                .secure(true)
+                .path("/api/v1/auth")
+                .sameSite("None")
+                .maxAge(userLoginRequest.isLongTerm()? Duration.ofDays(30) : Duration.ofHours(1))
+                .build();
+
+        var userLoginResponse = UserLoginResponse.builder()
+                .accessToken(jwtTokenDto.accessToken())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(userLoginResponse);
+    }
+
+
 
     @PostMapping("/auth/signup")
     public ResponseEntity<?> signup(@RequestBody UserSignUpRequest userSignUpRequest) {
