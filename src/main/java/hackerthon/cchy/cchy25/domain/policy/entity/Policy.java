@@ -27,9 +27,9 @@ public class Policy extends BaseEntity {
 
     private String summary;
 
-    private BusinessType businessType; // 사업 분야
+//    private BusinessType businessType; // 사업 분야
 
-    private SupportType supportType; // 정책 종류
+//    private SupportType supportType; // 정책 종류
 
     private String organization;
 
@@ -37,13 +37,13 @@ public class Policy extends BaseEntity {
 
     private LocalDateTime endAt;
 
-    @Enumerated
-    private List<SupportTarget> targets;
+//    @Enumerated
+//    private List<SupportTarget> targets;
 
-    @Enumerated
-    private List<EvaluationMethod> evaluationMethods;
+//    @Enumerated
+//    private List<EvaluationMethod> evaluationMethods;
 
-    private ApplicationMethod applicationMethod;
+//    private ApplicationMethod applicationMethod;
 
 //    private String currency;
 
@@ -55,7 +55,7 @@ public class Policy extends BaseEntity {
 
     private String condition;
 
-    private List<PolicyTag> tags = new ArrayList();
+//    private List<PolicyTag> tags = new ArrayList();
 
 
 
