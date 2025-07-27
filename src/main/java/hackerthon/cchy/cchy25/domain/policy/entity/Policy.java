@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "policies")
@@ -25,27 +27,40 @@ public class Policy extends BaseEntity {
 
     private String title;
 
+    @Enumerated(EnumType.STRING)
+    private RegionCode region;
+
     private String summary;
 
-    private BusinessType businessType; // 사업 분야
+    private int years; // 0년 ~ 7년, 0년은 예비창업자
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<BusinessType> bizType; // 사업 분야
 
     private SupportType supportType; // 정책 종류
 
     private String organization;
 
-    private LocalDateTime startAt;
+    private LocalDateTime bizStartAt;
 
-    private LocalDateTime endAt;
+    private LocalDateTime bizEndAt;
 
-    @Enumerated
-    private List<SupportTarget> targets;
+    private LocalDateTime applyStartAt;
 
-    @Enumerated
-    private List<EvaluationMethod> evaluationMethods;
+    private LocalDateTime applyEndAt;
 
-    private ApplicationMethod applicationMethod;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportTarget> targets = new HashSet<>(); //타겟
 
-//    private String currency;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<ApplyMethod> applyMethods = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<EvaluationMethod> evaluationMethods = new HashSet<>();
 
     private Long minAmount;
 
@@ -53,11 +68,12 @@ public class Policy extends BaseEntity {
 
     private Long isAlways;
 
-    private String condition;
+    private String condition; // 지원조건 상세
 
-    private List<PolicyTag> tags = new ArrayList();
+    private String targetDetail; // 지원대상 상세
 
-
-
-
+    private String exTargetDetail; // 제외대상 디테일
 }
+
+
+

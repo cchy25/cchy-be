@@ -31,8 +31,6 @@ public class PolicyController {
             Pageable pageable,
             @RequestBody PolicySearchRequest policySearchRequest
     ) {
-        policyService.searchPolicies(pageable);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(policyService.searchPolicies(pageable, policySearchRequest));
     }
 }
