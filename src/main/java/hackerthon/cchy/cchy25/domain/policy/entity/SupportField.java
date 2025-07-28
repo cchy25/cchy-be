@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum BusinessType {
+public enum SupportField {
 
     CULTURE("문화예술"),
     CONTENT("콘텐츠"),
