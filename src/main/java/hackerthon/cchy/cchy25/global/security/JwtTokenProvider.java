@@ -75,7 +75,8 @@ public class JwtTokenProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        var userDetail = customUserDetailsService.loadUserByUsername((String) authentication.getCredentials());
+        var userId = extractClaims((String) authentication.getCredentials()).getSubject();
+        var userDetail = customUserDetailsService.loadUserByUsername(userId);
         return new JwtAuthenticationToken(null, userDetail);
     }
 

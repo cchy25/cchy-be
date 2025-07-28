@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -24,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/auth/me")
-    public ResponseEntity<?> me(@AuthenticationPrincipal User user){
+    public ResponseEntity<?> me(@AuthenticationPrincipal UserDetails user){
         log.info("me={}",user.getUsername());
         return ResponseEntity.ok("ok");
     }

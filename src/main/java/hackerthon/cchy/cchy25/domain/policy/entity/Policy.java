@@ -28,7 +28,8 @@ public class Policy extends BaseEntity {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    private RegionCode region;
+    @Builder.Default
+    private Set<RegionCode> regions = new HashSet<>();
 
     private String summary;
 
@@ -36,15 +37,15 @@ public class Policy extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Set<BusinessType> bizType; // 사업 분야
+    private Set<SupportField> supportFields = new HashSet<>(); // 사업 분야
 
-    private SupportType supportType; // 정책 종류
+    private SupportCategory supportCategory; // 정책 종류
 
     private String organization;
 
-    private LocalDateTime bizStartAt;
+    private LocalDateTime startAt;
 
-    private LocalDateTime bizEndAt;
+    private LocalDateTime endAt;
 
     private LocalDateTime applyStartAt;
 
@@ -68,7 +69,7 @@ public class Policy extends BaseEntity {
 
     private Long isAlways;
 
-    private String condition; // 지원조건 상세
+    private String conditionDetail; // 지원조건 상세
 
     private String targetDetail; // 지원대상 상세
 

@@ -30,7 +30,6 @@ public class PolicyService {
 
     public Page<PolicyResponse> searchPolicies(Pageable pageable, PolicySearchRequest policySearchRequest) {
 
-
         return policySearchRepository.search(
                 pageable,
                 policySearchRequest
