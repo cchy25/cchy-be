@@ -28,7 +28,7 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
 
         // 지역 필터
         if (request.getRegions() != null && !request.getRegions().isEmpty()) {
-            builder.and(policy.region.in(request.getRegions()));
+            builder.and(policy.regions.any().in(request.getRegions()));
         }
 
         // 지원 분야
@@ -70,7 +70,7 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
                 /* QPolicyResponse 생성자 or Projections.fields() */
                 .select(Projections.fields(
                         PolicyResponse.class,
-                        policy.region,
+                        policy.regions,
                         policy.supportFields,
                         policy.supportCategory,
                         policy.applyEndAt,
