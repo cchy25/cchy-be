@@ -2,6 +2,7 @@ package hackerthon.cchy.cchy25.domain.user.entity;
 
 import hackerthon.cchy.cchy25.common.entity.BaseEntity;
 import hackerthon.cchy.cchy25.domain.auth.entity.SocialAccount;
+import hackerthon.cchy.cchy25.domain.diagnosis.entity.Diagnosis;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,8 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private List<SocialAccount> socialAccounts = new ArrayList<>();
 
-
+    @OneToOne(mappedBy = "user")
+    private Diagnosis diagnosis;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
