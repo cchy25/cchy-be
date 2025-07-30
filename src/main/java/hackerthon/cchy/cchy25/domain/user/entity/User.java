@@ -2,6 +2,7 @@ package hackerthon.cchy.cchy25.domain.user.entity;
 
 import hackerthon.cchy.cchy25.common.entity.BaseEntity;
 import hackerthon.cchy.cchy25.domain.auth.entity.SocialAccount;
+import hackerthon.cchy.cchy25.domain.bookmark.entity.Bookmark;
 import hackerthon.cchy.cchy25.domain.diagnosis.entity.Diagnosis;
 import jakarta.persistence.*;
 import lombok.*;
