@@ -45,6 +45,6 @@ public class UserController {
             @AuthenticationPrincipal User user,
             Pageable pageable
     ) {
-        bookmarkService.getBookmarks(user.getId(), pageable);
+        return ResponseEntity.ok(bookmarkService.getBookmarkedPolicy(user.getId(), pageable));
     }
 }
