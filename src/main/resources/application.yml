@@ -13,10 +13,13 @@ spring:
     password: 25cchyroot
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
       ddl-auto: create-drop
 
-jwt:
+  data:
+    elasticsearch:
+      uris: "http://localhost:9200"
+
   secret-key: "1231234guihbasd89y12h2b3kjasjd09u12h3j12312asoifoih123"
   access-token-exp: 900
