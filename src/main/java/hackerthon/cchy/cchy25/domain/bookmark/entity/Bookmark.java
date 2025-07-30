@@ -22,7 +22,7 @@ public class Bookmark extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private User user;
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)

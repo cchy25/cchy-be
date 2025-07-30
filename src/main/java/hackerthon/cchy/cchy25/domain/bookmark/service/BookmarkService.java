@@ -25,7 +25,7 @@ public class BookmarkService {
         boolean isBookmarked;
         LocalDateTime timestamp;
 
-        var optionalBookmark = bookmarkRepository.findByUserIdAndTargetId(userId, policyId);
+        var optionalBookmark = bookmarkRepository.findByUserIdAndPolicyId(userId, policyId);
 
         if (optionalBookmark.isPresent()) {
             bookmarkRepository.delete(optionalBookmark.get());
@@ -33,7 +33,7 @@ public class BookmarkService {
             timestamp = LocalDateTime.now();
         } else {
             var newBookmark = Bookmark.builder()
-                    .user(User.builder().id(userId).build())
+                    .userId(userId)
                     .policy(Policy.builder().id(policyId).build())
                     .build();
             var savedBookmark = bookmarkRepository.save(newBookmark);
