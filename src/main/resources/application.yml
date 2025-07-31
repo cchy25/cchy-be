@@ -29,5 +29,10 @@ spring:
     elasticsearch:
       uris: "http://localhost:9200"
 
+  batch:
+    jdbc:
+      initialize-schema: always # MySQL과 같은 외부 데이터베이스를 사용하는 경우 'always'로 설정합니다.
+
+jwt:
   secret-key: "1231234guihbasd89y12h2b3kjasjd09u12h3j12312asoifoih123"
   access-token-exp: 900
