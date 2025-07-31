@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "userPolicies")
+@Table(name = "user_policies")
 @Builder
 @Getter
 @AllArgsConstructor

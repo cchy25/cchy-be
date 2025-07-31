@@ -33,7 +33,7 @@ public class BookmarkService {
             timestamp = LocalDateTime.now();
         } else {
             var newBookmark = Bookmark.builder()
-                    .userId(userId)
+                    .user(User.builder().id(userId).build())
                     .policy(Policy.builder().id(policyId).build())
                     .build();
             var savedBookmark = bookmarkRepository.save(newBookmark);
