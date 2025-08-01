@@ -55,7 +55,7 @@ jobs:
             sudo docker pull ${IMAGE_URL}
             
             # 기존 컨테이너 중지 및 삭제
-            if [ "$(docker ps -q -f name=my-spring-app)" ]; then
+            if [ "$(sudo docker ps -q -f name=my-spring-app)" ]; then
                 echo "기존 컨테이너 중지 및 삭제..."
                 sudo docker stop my-spring-app
                 sudo docker rm my-spring-app
