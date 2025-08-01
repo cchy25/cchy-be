@@ -62,7 +62,7 @@ jobs:
             fi
             
             # 기존 이미지 삭제 (선택 사항)
-            # sudo docker rmi $(docker images -f "dangling=true" -q)
+            sudo docker rmi $(docker images -f "dangling=true" -q)
             
             # 시크릿 환경 변수를 포함하여 새 컨테이너 실행
             sudo docker run -d \
