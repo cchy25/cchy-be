@@ -16,5 +16,5 @@ public class SourcePolicy {
 
     private String title;
 
-    private String region;
+    private String regions;
 }

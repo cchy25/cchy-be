@@ -1,7 +1,10 @@
 package hackerthon.cchy.cchy25.domain.diagnosis.entity;
 
 import hackerthon.cchy.cchy25.common.entity.BaseEntity;
+import hackerthon.cchy.cchy25.domain.diagnosis.dto.DiagnosisRequest;
 import hackerthon.cchy.cchy25.domain.policy.entity.RegionCode;
+import hackerthon.cchy.cchy25.domain.policy.entity.SupportField;
+import hackerthon.cchy.cchy25.domain.policy.entity.SupportTarget;
 import hackerthon.cchy.cchy25.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "diagnoses")
@@ -37,6 +42,14 @@ public class Diagnosis extends BaseEntity {
 
     @Column(nullable = false)
     @Builder.Default
+    private Boolean hasPlanner = false;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean hasEdu = false;
+
+    @Column(nullable = false)
+    @Builder.Default
     private Boolean hasMentor = false;
 
     @Column(nullable = false)
@@ -61,6 +74,36 @@ public class Diagnosis extends BaseEntity {
     @Column(nullable = false)
     private Integer years;
 
-    @Column(nullable = false)
-    private RegionCode region;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "diagnosis_regions", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<RegionCode> regions = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+
+    @CollectionTable(name = "diagnosis_support_fields", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportField> supportFields = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "diagnosis_support_targets", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportTarget> targets = new HashSet<>();
+
+    public void updateSelective(DiagnosisRequest request) {
+        if (request.getHasItem() != null) this.hasItem = request.getHasItem();
+        if (request.getHasTeam() != null) this.hasTeam = request.getHasTeam();
+        if (request.getHasMentor() != null) this.hasMentor = request.getHasMentor();
+        if (request.getHasModel() != null) this.hasModel = request.getHasModel();
+        if (request.getHasCapital() != null) this.hasCapital = request.getHasCapital();
+        if (request.getHasSpace() != null) this.hasSpace = request.getHasSpace();
+        if (request.getLaunchAt() != null) this.launchAt = request.getLaunchAt();
+        if (request.getYears() != null) this.years = request.getYears();
+        if (request.getRegions() != null) this.regions = request.getRegions();
+        if (request.getSupportFields() != null) this.supportFields = request.getSupportFields();
+        if (request.getTargets() != null) this.targets = request.getTargets();
+    }
 }

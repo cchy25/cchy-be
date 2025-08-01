@@ -85,12 +85,12 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/health").permitAll()
-                        .requestMatchers("/api/v1/auth/login").permitAll()
-                        .requestMatchers("/api/v1/auth/signup").permitAll()
-                        .requestMatchers("/api/v1/auth/reissue").permitAll()
-                        .requestMatchers("/api/v1/auth/check-email").permitAll()
-                        .requestMatchers("/api/v1/auth/check-username").permitAll()
+                        .requestMatchers("/v1/auth/health").permitAll()
+                        .requestMatchers("/v1/auth/login").permitAll()
+                        .requestMatchers("/v1/auth/signup").permitAll()
+                        .requestMatchers("/v1/auth/reissue").permitAll()
+                        .requestMatchers("/v1/auth/check-email").permitAll()
+                        .requestMatchers("/v1/auth/check-username").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**", "/swagger-ui", "/swagger-ui/**", "/swagger-ui.html"
                         ).permitAll()
