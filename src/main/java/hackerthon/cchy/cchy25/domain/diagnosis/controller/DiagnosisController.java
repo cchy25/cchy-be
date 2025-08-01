@@ -23,8 +23,7 @@ public class DiagnosisController {
     @Operation(summary = "내 진단 조회", description = "유저의 진단 정보를 조회합니다.")
     @GetMapping("/diagnoses/me")
     public ResponseEntity<DiagnosisResponse> getMyDiagnosis(
-            @AuthenticationPrincipal User user,
-            @RequestBody DiagnosisRequest diagnosisRequest
+            @AuthenticationPrincipal User user
     ) {
         return ResponseEntity.ok(diagnosisService.getMyDiagnosis(user.getId()));
     }
