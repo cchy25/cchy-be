@@ -25,7 +25,9 @@ jobs:
           cache: 'gradle' # 의존성 캐싱
 
       - name: Build with Gradle # 빌드
-        run: sudo ./gradlew clean build --no-daemon
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build --no-daemon
 
       - name: Build Docker image # 이미지 빌드
         run: |
