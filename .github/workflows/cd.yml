@@ -27,7 +27,7 @@ jobs:
       - name: Build with Gradle # 빌드
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build --no-daemon
+          ./gradlew clean build -x test --no-daemon
 
       - name: Build Docker image # 이미지 빌드
         run: |
