@@ -61,10 +61,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ghcr.io/${{ github.repository_owner }}/qstart:latest
-            docker stop qstart-container || true
-            docker rm qstart-container || true
-            docker run -d --name qstart-container \
+            sudo docker pull ghcr.io/${{ github.repository_owner }}/qstart:latest
+            sudo docker stop qstart-container || true
+            sudo docker rm qstart-container || true
+            sudo docker run -d --name qstart-container \
               -e SPRING_PROFILES_ACTIVE=prod \
               -e DB_URL=${{ secrets.DB_URL }} \
               -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
