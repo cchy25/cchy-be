@@ -55,14 +55,15 @@ jobs:
             sudo docker pull ${IMAGE_URL}
             
             # 기존 컨테이너 중지 및 삭제
-            if [ "$(sudo docker ps -q -f name=my-spring-app)" ]; then
-                echo "기존 컨테이너 중지 및 삭제..."
-                sudo docker stop my-spring-app
-                sudo docker rm my-spring-app
+            # 모든 docker 명령어에 sudo를 일관되게 사용하고, || true를 사용하여 오류 무시
+            if sudo docker ps -q -f name=my-spring-app > /dev/null; then
+              echo "기존 컨테이너 중지 및 삭제..."
+              sudo docker stop my-spring-app || true
+              sudo docker rm my-spring-app || true
             fi
             
             # 기존 이미지 삭제 (선택 사항)
-            sudo docker rmi $(docker images -f "dangling=true" -q)
+            sudo docker system prune -f
             
             # 시크릿 환경 변수를 포함하여 새 컨테이너 실행
             sudo docker run -d \
