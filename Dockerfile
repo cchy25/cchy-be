@@ -2,7 +2,7 @@
 # 1. 빌드 단계 (Build Stage)
 # -------------------------------------
 # Gradle 빌드를 위해 JDK 21을 사용하는 경량(alpine) 이미지를 사용합니다.
-FROM amazoncorretto:21-jdk-alpine AS builder
+FROM amazoncorretto:21-alpine AS builder
 
 # 작업 디렉토리를 /app으로 설정
 WORKDIR /app
@@ -27,7 +27,7 @@ RUN ./gradlew bootJar
 # 2. 실행 단계 (Run Stage)
 # -------------------------------------
 # 애플리케이션 실행을 위해 JDK 21을 사용하는 경량 이미지를 사용합니다.
-FROM amazoncorretto:21-jdk-alpine
+FROM amazoncorretto:21-alpin
 
 # 작업 디렉토리를 /app으로 설정
 WORKDIR /app
