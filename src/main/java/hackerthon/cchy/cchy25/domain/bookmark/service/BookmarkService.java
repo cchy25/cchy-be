@@ -25,7 +25,7 @@ public class BookmarkService {
         boolean isBookmarked;
         LocalDateTime timestamp;
 
-        var optionalBookmark = bookmarkRepository.findByUserIdAndTargetId(userId, policyId);
+        var optionalBookmark = bookmarkRepository.findByUserIdAndPolicyId(userId, policyId);
 
         if (optionalBookmark.isPresent()) {
             bookmarkRepository.delete(optionalBookmark.get());

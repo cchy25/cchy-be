@@ -3,6 +3,7 @@ package hackerthon.cchy.cchy25.domain.policy.controller;
 import hackerthon.cchy.cchy25.domain.policy.dto.PolicyResponse;
 import hackerthon.cchy.cchy25.domain.policy.dto.PolicySearchRequest;
 import hackerthon.cchy.cchy25.domain.policy.service.PolicyService;
+import hackerthon.cchy.cchy25.global.scheduler.PolicyTransferScheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,5 +33,13 @@ public class PolicyController {
             @RequestBody PolicySearchRequest policySearchRequest
     ) {
         return ResponseEntity.ok(policyService.searchPolicies(pageable, policySearchRequest));
+    }
+
+
+    private final PolicyTransferScheduler policyTransferScheduler;
+    @PostMapping("/policies/bulk")
+    public ResponseEntity<Void> bulk(){
+        policyTransferScheduler.runJob();
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,10 +1,32 @@
 version: "3.8"
 
 services:
-  cchy-be:
+  mysql:
     container_name: "cchy-mysql"
     image: "mysql:8.0"
     ports:
       - 3306:3306
     environment:
+      MYSQL_DATABASE: "cchy"
       MYSQL_ROOT_PASSWORD: "25cchyroot"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    container_name: "cchy-es"
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    volumes:
+          - es_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  es_data:
