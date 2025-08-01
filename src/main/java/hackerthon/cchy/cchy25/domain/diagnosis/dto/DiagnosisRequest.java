@@ -1,14 +1,21 @@
 package hackerthon.cchy.cchy25.domain.diagnosis.dto;
 
 import hackerthon.cchy.cchy25.domain.policy.entity.RegionCode;
+import hackerthon.cchy.cchy25.domain.policy.entity.SupportField;
+import hackerthon.cchy.cchy25.domain.policy.entity.SupportTarget;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 public class DiagnosisRequest {
 
     private Boolean hasItem;
+
+    private Boolean hasPlanner;
+
+    private Boolean hasEdu;
 
     private Boolean hasTeam;
 
@@ -26,5 +33,9 @@ public class DiagnosisRequest {
 
     private Integer years;
 
-    private RegionCode region;
+    private Set<RegionCode> regions;
+
+    private Set<SupportField> supportFields;
+
+    private Set<SupportTarget> targets;
 }
