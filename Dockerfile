@@ -27,7 +27,7 @@ RUN ./gradlew bootJar
 # 2. 실행 단계 (Run Stage)
 # -------------------------------------
 # 애플리케이션 실행을 위해 JDK 21을 사용하는 경량 이미지를 사용합니다.
-FROM amazoncorretto:21-alpin
+FROM amazoncorretto:21-alpine
 
 # 작업 디렉토리를 /app으로 설정
 WORKDIR /app
