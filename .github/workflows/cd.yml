@@ -64,4 +64,13 @@ jobs:
             docker pull ghcr.io/${{ github.repository_owner }}/qstart:latest
             docker stop qstart-container || true
             docker rm qstart-container || true
-            docker run -d --name qstart-container -p 8080:8080 ghcr.io/${{ github.repository_owner }}/qstart:latest
+            docker run -d --name qstart-container \
+              -e SPRING_PROFILES_ACTIVE=prod \
+              -e DB_URL=${{ secrets.DB_URL }} \
+              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e ES_URL=${{ secrets.ES_URL }} \
+              -e JWT_KEY=${{ secrets.JWT_KEY }} \
+              -p 8080:8080 \
+              ghcr.io/${{ github.repository_owner }}/qstart:latest
+
