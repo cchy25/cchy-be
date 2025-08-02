@@ -37,8 +37,8 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
         }
 
         // 지원 종류
-        if (request.getSupportCategory() != null) {
-            builder.and(policy.supportCategory.eq(request.getSupportCategory()));
+        if (request.getSupportCategories() != null && !request.getSupportCategories().isEmpty()) {
+            builder.and(policy.supportCategories.any().in(request.getSupportCategories()));
         }
 
         // 신청 마감일 이전
@@ -57,7 +57,7 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
             builder.and(policy.evaluationMethods.any().in(request.getEvaluationMethods()));
         }
 
-        // 키워드 검색
+        // 키워드 쿼리검색
         if (request.getQuery() != null && !request.getQuery().isBlank()) {
             builder.and(policy.title.containsIgnoreCase(request.getQuery())
                     .or(policy.summary.containsIgnoreCase(request.getQuery()))
@@ -72,7 +72,7 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
                         PolicyResponse.class,
                         policy.regions,
                         policy.supportFields,
-                        policy.supportCategory,
+                        policy.supportCategories,
                         policy.applyEndAt,
                         policy.targets,
                         policy.evaluationMethods

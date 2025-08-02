@@ -42,6 +42,7 @@ public class DiagnosisService {
                 .years(diagnosisRequest.getYears())
                 .regions(diagnosisRequest.getRegions())
                 .supportFields(diagnosisRequest.getSupportFields())
+                .supportCategories(diagnosisRequest.getSupportCategories())
                 .targets(diagnosisRequest.getTargets())
                 .build();
 
