@@ -101,6 +101,12 @@ public class PolicyBatchConfiguration {
                         .map(SupportCategory::fromString)
                         .collect(Collectors.toSet());
 
+                var supportTypes = Arrays.stream(sourcePolicy.getSupportTypes().split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .map(SupportType::fromString)
+                        .collect(Collectors.toSet());
+
                 return Policy.builder()
                         .sourceId(sourcePolicy.getId())
                         .title(sourcePolicy.getTitle())
@@ -120,6 +126,7 @@ public class PolicyBatchConfiguration {
                         .supportCategories(supportCategories)
                         .applyMethods(applyMethods)
                         .evaluationMethods(evaluationMethods)
+                        .supportTypes(supportTypes)
                         .targets(supportTargets)
                         .regions(regions)
                         .supportFields(supportFields)

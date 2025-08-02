@@ -70,7 +70,7 @@ public class Policy extends BaseEntity {
     private Set<SupportField> supportFields = new HashSet<>(); // 사업 분야
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "policy_support_support_categories", joinColumns = @JoinColumn(name = "policy_id"))
+    @CollectionTable(name = "policy_support_categories", joinColumns = @JoinColumn(name = "policy_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<SupportCategory> supportCategories = new HashSet<>(); // 사업 분야
@@ -102,6 +102,12 @@ public class Policy extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<EvaluationMethod> evaluationMethods = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "policy_support_types", joinColumns = @JoinColumn(name = "policy_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportType> supportTypes = new HashSet<>();
 
     private Long minAmount;
 

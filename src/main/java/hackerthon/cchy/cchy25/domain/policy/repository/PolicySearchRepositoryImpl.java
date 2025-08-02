@@ -72,11 +72,27 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
         constructorArgs.add(policy.title);
         constructorArgs.add(policy.summary);
         constructorArgs.add(policy.url);
+        constructorArgs.add(policy.targetDetail);
+        constructorArgs.add(policy.exTargetDetail);
+        constructorArgs.add(policy.organization);
+        constructorArgs.add(policy.startAt);
+        constructorArgs.add(policy.endAt);
+        constructorArgs.add(policy.applyStartAt);
+        constructorArgs.add(policy.applyEndAt);
+        constructorArgs.add(policy.minAmount);
+        constructorArgs.add(policy.maxAmount);
+        constructorArgs.add(policy.years);
+        constructorArgs.add(policy.evaluationMethods);
+        constructorArgs.add(policy.supportCategories);
+        constructorArgs.add(policy.supportFields);
+        constructorArgs.add(policy.supportTypes);
+        constructorArgs.add(policy.targets);
+        constructorArgs.add(policy.applyMethods);
         constructorArgs.add(accuracy.as("accuracy"));
 
         if (userId != null) {
             QBookmark bookmark = QBookmark.bookmark;
-            QUserPolicy userPolicy = QUserPolicy.userPolicy;
+//            QUserPolicy userPolicy = QUserPolicy.userPolicy;
             
             BooleanExpression bookmarkedExpression = JPAExpressions.selectOne()
                     .from(bookmark)
@@ -121,6 +137,9 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
         }
         if (request.getSupportFields() != null && !request.getSupportFields().isEmpty()) {
             builder.and(policy.supportFields.any().in(request.getSupportFields()));
+        }
+        if (request.getSupportTypes() != null && !request.getSupportTypes().isEmpty()) {
+            builder.and(policy.supportTypes.any().in(request.getSupportTypes()));
         }
         if (request.getSupportCategories() != null && !request.getSupportCategories().isEmpty()) {
             builder.and(policy.supportCategories.any().in(request.getSupportCategories()));

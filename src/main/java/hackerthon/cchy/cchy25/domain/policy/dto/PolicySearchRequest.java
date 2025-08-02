@@ -30,6 +30,7 @@ public class PolicySearchRequest {
     private Set<SupportCategory> supportCategories; // 지원 종류
     private LocalDateTime applyEndAt; // 신청 마감일
     private Set<SupportTarget> supportTargets; // 지원대상
+    private Set<SupportType> supportTypes; // 지원종류
     private Set<EvaluationMethod> evaluationMethods; // 심사방법
 
     private String query;
@@ -49,6 +50,7 @@ public class PolicySearchRequest {
                 .supportFields(diagnosis.getSupportFields())
                 .supportCategories(diagnosis.getSupportCategories())
                 .supportTargets(diagnosis.getTargets())
+                .supportTypes(diagnosis.getSupportTypes())
                 .evaluationMethods(diagnosis.getEvaluationMethods())
 //                .applyEndAt()
                 .build();
