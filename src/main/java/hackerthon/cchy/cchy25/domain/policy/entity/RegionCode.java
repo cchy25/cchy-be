@@ -3,6 +3,8 @@ package hackerthon.cchy.cchy25.domain.policy.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @AllArgsConstructor
 @Getter
 public enum RegionCode {
@@ -26,5 +28,12 @@ public enum RegionCode {
     JEJU("제주");
 
     private final String name;
+
+    public static RegionCode fromString(String code) {
+        return Arrays.stream(values())
+                .filter(rc -> rc.name().equalsIgnoreCase(code.trim()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid region code: " + code));
+    }
 
 }

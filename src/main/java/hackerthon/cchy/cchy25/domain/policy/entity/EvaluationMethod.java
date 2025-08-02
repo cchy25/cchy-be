@@ -3,6 +3,8 @@ package hackerthon.cchy.cchy25.domain.policy.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @AllArgsConstructor
 @Getter
 public enum EvaluationMethod {
@@ -14,4 +16,11 @@ public enum EvaluationMethod {
     ETC("기타");
 
     private String name;
+
+    public static EvaluationMethod fromString(String s) {
+        return Arrays.stream(values())
+                .filter(rc -> rc.name().equalsIgnoreCase(s.trim()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid EvaluationMethod: " + s));
+    }
 }

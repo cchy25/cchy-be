@@ -78,8 +78,6 @@ public class Policy extends BaseEntity {
 
     private Long maxAmount;
 
-    private Long isAlways;
-
     private String conditionDetail; // 지원조건 상세
 
     private String targetDetail; // 지원대상 상세
