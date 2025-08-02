@@ -27,8 +27,6 @@ public class DiagnosisRequest {
 
     private Boolean isRegistered;
 
-    private LocalDateTime launchAt;
-
     private Integer years;
 
     private Set<RegionCode> regions;
