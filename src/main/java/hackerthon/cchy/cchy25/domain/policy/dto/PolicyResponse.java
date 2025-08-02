@@ -16,16 +16,17 @@ public class PolicyResponse {
     private final String title;
     private final String summary;
     private final String url;
-    private final String target_detail;
-    private final String ex_target_detail;
+    private final String targetDetail;
+    private final String exTargetDetail;
     private final String organization;
     private final LocalDateTime startAt;
     private final LocalDateTime endAt;
     private final LocalDateTime applyStartAt;
     private final LocalDateTime applyEndAt;
-    private final Long min_amount;
-    private final Long max_amount;
-    private final Long years;
+    private final Long minAmount;
+    private final Long maxAmount;
+    private final int years;
+    private final Set<RegionCode> regionCodes;
     private final Set<EvaluationMethod> evaluationMethods;
     private final Set<SupportCategory> supportCategories;
     private final Set<SupportField> supportFields;
@@ -39,20 +40,21 @@ public class PolicyResponse {
 
     @Builder
     @QueryProjection
-    public PolicyResponse(String title, String summary, String url, String targetDetail, String exTargetDetail, String organization, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applyStartAt, LocalDateTime applyEndAt, Long minAmount, Long maxAmount, Long years, Set<EvaluationMethod> evaluationMethods, Set<SupportCategory> supportCategories, Set<SupportField> supportFields, Set<SupportType> supportTypes, Set<SupportTarget> supportTargets, Set<ApplyMethod> applyMethods, Integer accuracy, Boolean bookmarked){//, PolicyStatus policyStatus) {
+    public PolicyResponse(String title, String summary, String url, String targetDetail, String exTargetDetail, String organization, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applyStartAt, LocalDateTime applyEndAt, Long minAmount, Long maxAmount, int years, Set<RegionCode> regionCodes, Set<EvaluationMethod> evaluationMethods, Set<SupportCategory> supportCategories, Set<SupportField> supportFields, Set<SupportType> supportTypes, Set<SupportTarget> supportTargets, Set<ApplyMethod> applyMethods, Integer accuracy, Boolean bookmarked){//, PolicyStatus policyStatus) {
         this.title = title;
         this.summary = summary;
         this.url = url;
-        this.target_detail = targetDetail;
-        this.ex_target_detail = exTargetDetail;
+        this.targetDetail = targetDetail;
+        this.exTargetDetail = exTargetDetail;
         this.organization = organization;
         this.startAt = startAt;
         this.endAt = endAt;
         this.applyStartAt = applyStartAt;
         this.applyEndAt = applyEndAt;
-        this.min_amount = minAmount;
-        this.max_amount = maxAmount;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
         this.years = years;
+        this.regionCodes = regionCodes;
         this.evaluationMethods = evaluationMethods;
         this.supportCategories = supportCategories;
         this.supportFields = supportFields;

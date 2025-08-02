@@ -82,6 +82,7 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
         constructorArgs.add(policy.minAmount);
         constructorArgs.add(policy.maxAmount);
         constructorArgs.add(policy.years);
+        constructorArgs.add(policy.regions);
         constructorArgs.add(policy.evaluationMethods);
         constructorArgs.add(policy.supportCategories);
         constructorArgs.add(policy.supportFields);
