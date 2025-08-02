@@ -3,6 +3,8 @@ package hackerthon.cchy.cchy25.domain.policy.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @AllArgsConstructor
 @Getter
 public enum SupportCategory {
@@ -11,4 +13,11 @@ public enum SupportCategory {
     ETC("기타");
 
     private String name;
+
+    public static SupportCategory fromString(String s) {
+        return Arrays.stream(values())
+                .filter(rc -> rc.getName().equalsIgnoreCase(s.trim()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category: " + s));
+    }
 }

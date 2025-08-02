@@ -23,6 +23,9 @@ public class Policy extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private Long sourceId;
+
     private String url;
 
     private String title;
@@ -77,8 +80,6 @@ public class Policy extends BaseEntity {
     private Long minAmount;
 
     private Long maxAmount;
-
-    private Long isAlways;
 
     private String conditionDetail; // 지원조건 상세
 
