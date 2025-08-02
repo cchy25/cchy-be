@@ -23,6 +23,9 @@ public class Policy extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private Long sourceId;
+
     private String url;
 
     private String title;

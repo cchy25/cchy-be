@@ -22,7 +22,7 @@ public enum SupportField {
 
     public static SupportField fromString(String s) {
         return Arrays.stream(values())
-                .filter(rc -> rc.name().equalsIgnoreCase(s.trim()))
+                .filter(rc -> rc.getName().equalsIgnoreCase(s.trim()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid supportField: " + s));
     }

@@ -1,9 +1,11 @@
 package hackerthon.cchy.cchy25.domain.policy.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Arrays;
 
+@Getter
 @AllArgsConstructor
 public enum ApplyMethod {
     EMAIL("이메일"),
@@ -14,7 +16,7 @@ public enum ApplyMethod {
 
     public static ApplyMethod fromString(String s) {
         return Arrays.stream(values())
-                .filter(rc -> rc.name().equalsIgnoreCase(s.trim()))
+                .filter(rc -> rc.getName().equalsIgnoreCase(s.trim()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ApplyMethod: " + s));
     }

@@ -8,10 +8,10 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 public enum EvaluationMethod {
-    APPLY("신청"),
-    PLANNER("사업 계획서 제출"),
+    SIMPLE("단순 신청"),
+    PLANNER("사업 계획서"),
     INTERVIEW("인터뷰"),
-    PRESENTATION("발표"),
+    PRESENTATION("발표 심사"),
     ONSITE("현장심사"),
     ETC("기타");
 
@@ -19,7 +19,7 @@ public enum EvaluationMethod {
 
     public static EvaluationMethod fromString(String s) {
         return Arrays.stream(values())
-                .filter(rc -> rc.name().equalsIgnoreCase(s.trim()))
+                .filter(rc -> rc.getName().equalsIgnoreCase(s.trim()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid EvaluationMethod: " + s));
     }

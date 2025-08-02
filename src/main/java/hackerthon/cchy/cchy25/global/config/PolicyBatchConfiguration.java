@@ -1,6 +1,7 @@
 package hackerthon.cchy.cchy25.global.config;
 
 import hackerthon.cchy.cchy25.domain.policy.entity.*;
+import hackerthon.cchy.cchy25.domain.policy.repository.PolicyRepository;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class PolicyBatchConfiguration {
 
     private final EntityManagerFactory entityManagerFactory;
+    private final PolicyRepository policyRepository;
 
     @Bean
     public Job transferSourceToPolicyJob(JobRepository jobRepository, Step transferStep) {
@@ -58,6 +60,10 @@ public class PolicyBatchConfiguration {
     @Bean
     public ItemProcessor<SourcePolicy, Policy> sourcePolicyProcessor() {
         return sourcePolicy -> {
+            if (policyRepository.existsBySourceId(sourcePolicy.getId())) {
+                log.info("Policy with sourceId={} already exists. Skipping.", sourcePolicy.getId());
+                return null;
+            }
             try {
                 var regions = Arrays.stream(sourcePolicy.getRegions().split(","))
                         .map(String::trim)
@@ -71,27 +77,27 @@ public class PolicyBatchConfiguration {
                         .map(SupportField::fromString)
                         .collect(Collectors.toSet());
 
-                var applyMethods = Arrays.stream(sourcePolicy.getSupportFields().split(","))
+                var applyMethods = Arrays.stream(sourcePolicy.getApplyMethods().split(","))
                         .map(String::trim)
                         .filter(s -> !s.isEmpty())
                         .map(ApplyMethod::fromString)
                         .collect(Collectors.toSet());
 
-                var evaluationMethods = Arrays.stream(sourcePolicy.getSupportFields().split(","))
+                var evaluationMethods = Arrays.stream(sourcePolicy.getEvaluationMethods().split(","))
                         .map(String::trim)
                         .filter(s -> !s.isEmpty())
                         .map(EvaluationMethod::fromString)
                         .collect(Collectors.toSet());
 
-                var supportTargets = Arrays.stream(sourcePolicy.getSupportFields().split(","))
+                var supportTargets = Arrays.stream(sourcePolicy.getTargets().split(","))
                         .map(String::trim)
                         .filter(s -> !s.isEmpty())
                         .map(SupportTarget::fromString)
                         .collect(Collectors.toSet());
 
                 return Policy.builder()
-                        .id(sourcePolicy.getId())
-                        .title(sourcePolicy.getTitle() + "!")
+                        .sourceId(sourcePolicy.getId())
+                        .title(sourcePolicy.getTitle())
                         .summary(sourcePolicy.getSummary())
                         .url(sourcePolicy.getUrl())
                         .organization(sourcePolicy.getOrganization())
@@ -105,7 +111,7 @@ public class PolicyBatchConfiguration {
                         .years(sourcePolicy.getYears())
                         .minAmount(sourcePolicy.getMinAmount())
                         .maxAmount(sourcePolicy.getMaxAmount())
-                        .supportCategory(SupportCategory.valueOf(sourcePolicy.getSupportCategory()))
+                        .supportCategory(SupportCategory.fromString(sourcePolicy.getSupportCategory()))
                         .applyMethods(applyMethods)
                         .evaluationMethods(evaluationMethods)
                         .targets(supportTargets)

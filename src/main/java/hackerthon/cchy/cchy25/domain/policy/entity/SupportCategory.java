@@ -16,7 +16,7 @@ public enum SupportCategory {
 
     public static SupportCategory fromString(String s) {
         return Arrays.stream(values())
-                .filter(rc -> rc.name().equalsIgnoreCase(s.trim()))
+                .filter(rc -> rc.getName().equalsIgnoreCase(s.trim()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category: " + s));
     }
