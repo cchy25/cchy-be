@@ -10,7 +10,8 @@ import java.util.Arrays;
 public enum ApplyMethod {
     EMAIL("이메일"),
     ONLINE("온라인"),
-    VISIT("방문");
+    VISIT("방문"),
+    ETC("기타");
 
     private String name;
 

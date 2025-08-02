@@ -40,14 +40,40 @@ public class Policy extends BaseEntity {
 
     private int years; // 0년 ~ 7년, 0년은 예비창업자
 
+
+    //------------- 카테고리가 되지못한것들..
+    @Builder.Default
+    private Boolean hasItem = false;
+    @Builder.Default
+    private Boolean hasTeam = false;
+    @Builder.Default
+    private Boolean hasMentor = false;
+    @Builder.Default
+    private Boolean hasModel = false;
+    @Builder.Default
+    private Boolean hasCapital = false;
+    @Builder.Default
+    private Boolean hasSpace = false;
+    @Builder.Default
+    private Boolean isRegistered = false;
+    @Builder.Default
+    private Boolean hasEdu = false;
+    @Builder.Default
+    private Boolean hasPlanner = false;
+
+    //--------------
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "policy_support_fields", joinColumns = @JoinColumn(name = "policy_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<SupportField> supportFields = new HashSet<>(); // 사업 분야
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "policy_support_categories", joinColumns = @JoinColumn(name = "policy_id"))
     @Enumerated(EnumType.STRING)
-    private SupportCategory supportCategory; // 정책 종류
+    @Builder.Default
+    private Set<SupportCategory> supportCategories = new HashSet<>(); // 사업 분야
 
     private String organization;
 
@@ -76,6 +102,12 @@ public class Policy extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<EvaluationMethod> evaluationMethods = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "policy_support_types", joinColumns = @JoinColumn(name = "policy_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportType> supportTypes = new HashSet<>();
 
     private Long minAmount;
 

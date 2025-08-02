@@ -49,6 +49,6 @@ public class BookmarkService {
     public Page<PolicyResponse> getBookmarkedPolicy(Long userId, Pageable pageable) {
         var policyResponse = bookmarkRepository.findByUserId(userId, pageable);
 
-        return policyResponse.map(bookmark -> PolicyResponse.from(bookmark.getPolicy()));
+        return policyResponse.map(bookmark -> PolicyResponse.from(bookmark.getPolicy(), true));
     }
 }

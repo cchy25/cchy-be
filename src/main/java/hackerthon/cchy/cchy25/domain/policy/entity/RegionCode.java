@@ -8,7 +8,6 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 public enum RegionCode {
-    ALL("전국"),
     GWANGJU("광주"),
     DAEGU("대구"),
     INCHEON("인천"),

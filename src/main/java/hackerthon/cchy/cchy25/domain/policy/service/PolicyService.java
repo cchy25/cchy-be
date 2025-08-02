@@ -1,5 +1,6 @@
 package hackerthon.cchy.cchy25.domain.policy.service;
 
+import hackerthon.cchy.cchy25.domain.diagnosis.repository.DiagnosisRepository;
 import hackerthon.cchy.cchy25.domain.policy.dto.PolicyResponse;
 import hackerthon.cchy.cchy25.domain.policy.dto.PolicySearchRequest;
 import hackerthon.cchy.cchy25.domain.policy.dto.UserPolicyRequest;
@@ -26,13 +27,14 @@ public class PolicyService {
     private final PolicyRepository policyRepository;
     private final PolicySearchRepository policySearchRepository;
     private final UserPolicyRepository userPolicyRepository;
+    private final DiagnosisRepository diagnosisRepository;
 
 
     public PolicyResponse getPolicy(Long policyId) {
         var policy = policyRepository.findById(policyId)
                 .orElseThrow(() -> new PolicyException(PolicyErrorCode.NOT_FOUND));
 
-        return PolicyResponse.from(policy);
+        return PolicyResponse.from(policy, false);
     }
 
     public Page<PolicyResponse> searchPolicies(Pageable pageable, PolicySearchRequest policySearchRequest) {
@@ -61,5 +63,17 @@ public class PolicyService {
         foundUserPolicy.setPolicyStatus(userPolicyRequest.getPolicyStatus());
 
         userPolicyRepository.save(foundUserPolicy);
+    }
+
+
+    public Page<PolicyResponse> recommend(Pageable pageable, Long userId) {
+        var diagnosis = diagnosisRepository.findFirstByUser_IdOrderByCreateAtDesc(userId)
+                .orElseThrow(() -> new PolicyException(PolicyErrorCode.NOT_FOUND));
+
+        return policySearchRepository.search(
+//                PageRequest.of(0, 3),
+                pageable,
+                PolicySearchRequest.from(diagnosis)
+        );
     }
 }
