@@ -13,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,16 +30,17 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
     private final QPolicy policy = QPolicy.policy;
     private final BookmarkRepository bookmarkRepository;
 
-    /**
-     * 동적 쿼리를 사용해 정책을 검색하고, 결과를 PolicyResponse DTO의 Page 객체로 반환합니다.
-     * 이 메서드는 북마크 여부를 확인하지 않습니다.
-     *
-     * @param pageable 페이징 및 정렬 정보를 담은 객체
-     * @param request 검색 조건을 담은 DTO
-     * @return 검색 조건에 맞는 PolicyResponse DTO의 Page 객체
-     */
     @Override
     public Page<PolicyResponse> search(Pageable pageable, PolicySearchRequest request) {
+        return calculateAndSortPolicies(pageable, request, null);
+    }
+
+    @Override
+    public Page<PolicyResponse> search(Pageable pageable, PolicySearchRequest request, Long userId) {
+        return calculateAndSortPolicies(pageable, request, userId);
+    }
+
+    private Page<PolicyResponse> calculateAndSortPolicies(Pageable pageable, PolicySearchRequest request, Long userId) {
         BooleanBuilder builder = createSearchConditions(request);
 
         List<Policy> policies = queryFactory
@@ -45,7 +48,6 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
                 .where(builder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(policy.id.desc())
                 .fetch();
 
         Long total = Optional.ofNullable(
@@ -55,56 +57,68 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository {
                         .fetchOne()
         ).orElse(0L);
 
+        Set<Long> bookmarkedPolicyIds = (userId != null) ? bookmarkRepository.findPolicyIdsByUserId(userId) : null;
+
         List<PolicyResponse> responses = policies.stream()
-                .map(p -> PolicyResponse.from(p, false)) // 북마크 상태는 항상 false로 설정
+                .map(p -> {
+                    Integer accuracy = calculateAccuracy(p, request);
+                    boolean isBookmarked = (bookmarkedPolicyIds != null) && bookmarkedPolicyIds.contains(p.getId());
+                    return PolicyResponse.from(p, accuracy, isBookmarked);
+                })
+                .sorted((a, b) -> b.getAccuracy().compareTo(a.getAccuracy()))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(responses, pageable, total);
     }
 
     /**
-     * 사용자 ID를 기반으로 정책을 검색하고, 북마크 상태를 포함하여 Page 객체로 반환합니다.
-     *
-     * @param pageable 페이징 및 정렬 정보를 담은 객체
-     * @param request 검색 조건을 담은 DTO
-     * @param userId 북마크 여부를 확인할 사용자 ID
-     * @return 검색 조건에 맞는 PolicyResponse DTO의 Page 객체 (북마크 상태 포함)
+     * 정책과 요청을 기반으로 정확도를 계산하는 메서드 (항목별 비율의 평균)
      */
-    @Override
-    public Page<PolicyResponse> search(Pageable pageable, PolicySearchRequest request, Long userId) {
-        BooleanBuilder builder = createSearchConditions(request);
+    private Integer calculateAccuracy(Policy p, PolicySearchRequest request) {
+        double totalScore = 0.0;
+        int totalCategories = 0;
 
-        List<Policy> policies = queryFactory
-                .selectFrom(policy)
-                .where(builder)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(policy.id.desc())
-                .fetch();
+        // regions
+        if (!CollectionUtils.isEmpty(request.getRegions())) {
+            totalCategories++;
+            Set<Object> intersection = new HashSet<>(p.getRegions());
+            intersection.retainAll(request.getRegions());
+            totalScore += (double) intersection.size() / request.getRegions().size();
+        }
 
-        Long total = Optional.ofNullable(
-                queryFactory.select(policy.count())
-                        .from(policy)
-                        .where(builder)
-                        .fetchOne()
-        ).orElse(0L);
+        // supportFields
+        if (!CollectionUtils.isEmpty(request.getSupportFields())) {
+            totalCategories++;
+            Set<Object> intersection = new HashSet<>(p.getSupportFields());
+            intersection.retainAll(request.getSupportFields());
+            totalScore += (double) intersection.size() / request.getSupportFields().size();
+        }
 
-        // N+1 문제를 방지하기 위해 사용자가 북마크한 모든 정책 ID를 한 번에 가져옵니다.
-        Set<Long> bookmarkedPolicyIds = bookmarkRepository.findPolicyIdsByUserId(userId);
+        // supportTargets
+        if (!CollectionUtils.isEmpty(request.getSupportTargets())) {
+            totalCategories++;
+            Set<Object> intersection = new HashSet<>(p.getTargets());
+            intersection.retainAll(request.getSupportTargets());
+            totalScore += (double) intersection.size() / request.getSupportTargets().size();
+        }
 
-        List<PolicyResponse> responses = policies.stream()
-                .map(p -> {
-                    boolean isBookmarked = bookmarkedPolicyIds.contains(p.getId());
-                    return PolicyResponse.from(p, isBookmarked);
-                })
-                .collect(Collectors.toList());
+        // supportCategories
+        if (!CollectionUtils.isEmpty(request.getSupportCategories())) {
+            totalCategories++;
+            Set<Object> intersection = new HashSet<>(p.getSupportCategories());
+            intersection.retainAll(request.getSupportCategories());
+            totalScore += (double) intersection.size() / request.getSupportCategories().size();
+        }
 
-        return new PageImpl<>(responses, pageable, total);
+        if (totalCategories > 0) {
+            return (int) Math.round((totalScore / totalCategories) * 100);
+        }
+
+        return 0;
     }
 
     /**
      * PolicySearchRequest를 바탕으로 동적 쿼리 조건을 생성합니다.
-     * (이하 생략 - 기존 로직과 동일)
      */
     private BooleanBuilder createSearchConditions(PolicySearchRequest request) {
         BooleanBuilder builder = new BooleanBuilder();

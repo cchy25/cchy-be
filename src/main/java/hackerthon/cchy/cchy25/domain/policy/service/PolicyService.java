@@ -15,13 +15,9 @@ import hackerthon.cchy.cchy25.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,7 +67,7 @@ public class PolicyService {
 
 
     public Page<PolicyResponse> recommend(Pageable pageable, Long userId) {
-        var diagnosis = diagnosisRepository.findTop1ByUserIdOrderByCreateAtDesc(userId)
+        var diagnosis = diagnosisRepository.findFirstByUser_IdOrderByCreateAtDesc(userId)
                 .orElseThrow(() -> new PolicyException(PolicyErrorCode.NOT_FOUND));
 
         return policySearchRepository.search(

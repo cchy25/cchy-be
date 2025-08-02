@@ -26,7 +26,7 @@ public class Diagnosis extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -66,8 +66,7 @@ public class Diagnosis extends BaseEntity {
     @Builder.Default
     private Boolean isRegistered = false;
 
-//    @Column(nullable = false)
-//    private LocalDateTime launchAt;
+//    @Column(nullable = false
 
     @Column(nullable = false)
     private Integer years;
@@ -79,12 +78,12 @@ public class Diagnosis extends BaseEntity {
     private Set<RegionCode> regions = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
-
     @CollectionTable(name = "diagnosis_support_fields", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<SupportField> supportFields = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "diagnosis_support_categories", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default

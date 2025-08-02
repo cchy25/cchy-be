@@ -36,9 +36,7 @@ public class PolicyResponse {
     private final Boolean bookmarked;
 //    private final PolicyStatus policyStatus;
 
-
-
-    public static PolicyResponse from(Policy policy, boolean b) {
+    public static PolicyResponse from(Policy policy, boolean bookmarked) {
         return PolicyResponse.builder()
                 .title(policy.getTitle())
                 .summary(policy.getSummary())
@@ -60,7 +58,35 @@ public class PolicyResponse {
                 .supportTypes(policy.getSupportTypes())
                 .supportTargets(policy.getTargets())
                 .applyMethods(policy.getApplyMethods())
-                .bookmarked(b) // 북마크 목록은 accuracy 필요없음
+                .bookmarked(bookmarked) // 북마크 목록은 accuracy 필요없음
+//                .accuracy(accuracy) // 북마크 목록은 accuracy 필요없음
+                .build();
+    }
+
+    public static PolicyResponse from(Policy policy, int accuracy, boolean bookmarked) {
+        return PolicyResponse.builder()
+                .title(policy.getTitle())
+                .summary(policy.getSummary())
+                .url(policy.getUrl())
+                .targetDetail(policy.getTargetDetail())
+                .exTargetDetail(policy.getExTargetDetail())
+                .organization(policy.getOrganization())
+                .startAt(policy.getStartAt())
+                .endAt(policy.getEndAt())
+                .applyStartAt(policy.getApplyStartAt())
+                .applyEndAt(policy.getApplyEndAt())
+                .minAmount(policy.getMinAmount())
+                .maxAmount(policy.getMaxAmount())
+                .years(policy.getYears())
+                .regionCodes(policy.getRegions())
+                .evaluationMethods(policy.getEvaluationMethods())
+                .supportCategories(policy.getSupportCategories())
+                .supportFields(policy.getSupportFields())
+                .supportTypes(policy.getSupportTypes())
+                .supportTargets(policy.getTargets())
+                .applyMethods(policy.getApplyMethods())
+                .bookmarked(bookmarked) // 북마크 목록은 accuracy 필요없음
+                .accuracy(accuracy) // 북마크 목록은 accuracy 필요없음
                 .build();
     }
 }

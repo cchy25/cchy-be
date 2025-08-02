@@ -1,9 +1,7 @@
 package hackerthon.cchy.cchy25.domain.diagnosis.dto;
 
 import hackerthon.cchy.cchy25.domain.diagnosis.entity.Diagnosis;
-import hackerthon.cchy.cchy25.domain.policy.entity.RegionCode;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportField;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportTarget;
+import hackerthon.cchy.cchy25.domain.policy.entity.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -39,6 +37,14 @@ public class DiagnosisResponse {
 
     private Set<SupportField> supportFields;
 
+    private Set<SupportCategory> supportCategories;
+
+    private Set<EvaluationMethod> evaluationMethods;
+
+    private Set<ApplyMethod> applyMethods;
+
+    private Set<SupportType> supportTypes;
+
     private Set<SupportTarget> targets;
 
 
@@ -57,6 +63,10 @@ public class DiagnosisResponse {
                 .years(diagnosis.getYears())
                 .regions(diagnosis.getRegions())
                 .supportFields(diagnosis.getSupportFields())
+                .supportCategories(diagnosis.getSupportCategories())
+                .evaluationMethods(diagnosis.getEvaluationMethods())
+                .supportTypes(diagnosis.getSupportTypes())
+                .applyMethods(diagnosis.getApplyMethods())
                 .targets(diagnosis.getTargets())
                 .build();
     }
