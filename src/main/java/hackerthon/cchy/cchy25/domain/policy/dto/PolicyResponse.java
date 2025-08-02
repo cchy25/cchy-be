@@ -1,18 +1,22 @@
 package hackerthon.cchy.cchy25.domain.policy.dto;
 
 import hackerthon.cchy.cchy25.domain.policy.entity.Policy;
+import hackerthon.cchy.cchy25.domain.policy.entity.PolicyStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class PolicyResponse {
 
     private String title;
     private String summary;
     private String url;
     private Integer accuracy;
-
+    private Boolean bookmarked; //Bookmark 엔티티()
+    private PolicyStatus policyStatus; // PolicyStatus 열거형
 
     public static PolicyResponse from(Policy policy) {
         return PolicyResponse.builder()
