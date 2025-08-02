@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface PolicySearchRepository {
 
     Page<PolicyResponse> search(Pageable pageable, PolicySearchRequest policySearchRequest);
+    Page<PolicyResponse> search(Pageable pageable, PolicySearchRequest policySearchRequest, Long userId);
 }

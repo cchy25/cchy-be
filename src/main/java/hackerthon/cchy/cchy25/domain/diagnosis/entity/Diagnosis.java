@@ -26,7 +26,7 @@ public class Diagnosis extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -66,8 +66,7 @@ public class Diagnosis extends BaseEntity {
     @Builder.Default
     private Boolean isRegistered = false;
 
-    @Column(nullable = false)
-    private LocalDateTime launchAt;
+//    @Column(nullable = false
 
     @Column(nullable = false)
     private Integer years;
@@ -79,12 +78,12 @@ public class Diagnosis extends BaseEntity {
     private Set<RegionCode> regions = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
-
     @CollectionTable(name = "diagnosis_support_fields", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<SupportField> supportFields = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "diagnosis_support_categories", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -97,16 +96,22 @@ public class Diagnosis extends BaseEntity {
     private Set<SupportTarget> targets = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "diagnosis_support_evaluation_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @CollectionTable(name = "diagnosis_evaluation_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<EvaluationMethod> evaluationMethods = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "diagnosis_support_evaluation_apply_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @CollectionTable(name = "diagnosis_apply_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<ApplyMethod> applyMethods = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "diagnosis_support_types", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportType> supportTypes = new HashSet<>();
 
     public void updateSelective(DiagnosisRequest request) {
         if (request.getHasItem() != null) this.hasItem = request.getHasItem();
@@ -115,11 +120,13 @@ public class Diagnosis extends BaseEntity {
         if (request.getHasModel() != null) this.hasModel = request.getHasModel();
         if (request.getHasCapital() != null) this.hasCapital = request.getHasCapital();
         if (request.getHasSpace() != null) this.hasSpace = request.getHasSpace();
-        if (request.getLaunchAt() != null) this.launchAt = request.getLaunchAt();
+//        if (request.getLaunchAt() != null) this.launchAt = request.getLaunchAt();
+
         if (request.getYears() != null) this.years = request.getYears();
         if (request.getRegions() != null) this.regions = request.getRegions();
         if (request.getSupportFields() != null) this.supportFields = request.getSupportFields();
         if (request.getTargets() != null) this.targets = request.getTargets();
+        if (request.getSupportTypes() != null) this.supportTypes = request.getSupportTypes();
         if (request.getSupportCategories() != null) this.supportCategories = request.getSupportCategories();
     }
 }

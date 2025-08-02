@@ -1,9 +1,6 @@
 package hackerthon.cchy.cchy25.domain.diagnosis.dto;
 
-import hackerthon.cchy.cchy25.domain.policy.entity.RegionCode;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportCategory;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportField;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportTarget;
+import hackerthon.cchy.cchy25.domain.policy.entity.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -37,6 +34,8 @@ public class DiagnosisRequest {
     private Set<RegionCode> regions;
 
     private Set<SupportField> supportFields;
+
+    private Set<SupportType> supportTypes;
 
     private Set<SupportCategory> supportCategories;
 

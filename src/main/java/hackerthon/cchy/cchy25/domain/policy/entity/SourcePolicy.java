@@ -52,6 +52,8 @@ public class SourcePolicy {
 
     private String evaluationMethods;
 
+    private String supportTypes;
+
     private Long minAmount;
 
     private Long maxAmount;

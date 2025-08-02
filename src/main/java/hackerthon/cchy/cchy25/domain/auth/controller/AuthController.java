@@ -38,11 +38,12 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> localLogin(@RequestBody UserLoginRequest userLoginRequest) {
+        log.info("{} {}", userLoginRequest.email(), userLoginRequest.password());
         var jwtTokenDto = authService.login(userLoginRequest);
         var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
 //                .httpOnly(true)
 //                .secure(true)
-                .path("/api/v1/auth")
+                .path("/v1/auth")
                 .sameSite("None")
                 .maxAge(userLoginRequest.isLongTerm()? Duration.ofDays(30) : Duration.ofHours(1))
                 .build();
@@ -63,7 +64,7 @@ public class AuthController {
         var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
 //                .httpOnly(true)
 //                .secure(true)
-                .path("/api/v1/auth")
+                .path("/v1/auth")
                 .sameSite("None")
                 .maxAge(userLoginRequest.isLongTerm()? Duration.ofDays(30) : Duration.ofHours(1))
                 .build();
@@ -91,7 +92,7 @@ public class AuthController {
         var refreshTokenCookie = ResponseCookie.from("refreshToken", jwtTokenDto.refreshToken())
 //                .httpOnly(true)
 //                .secure(true)
-                .path("/api/v1/auth")
+                .path("/v1/auth")
                 .sameSite("None")
                 .maxAge(Duration.ofHours(1))
                 .build();

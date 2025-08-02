@@ -37,16 +37,17 @@ public class PolicyController {
     public ResponseEntity<Page<PolicyResponse>> queryPolicies(
             Pageable pageable,
             @RequestBody PolicySearchRequest policySearchRequest
-    ) {
+            ) {
         return ResponseEntity.ok(policyService.searchPolicies(pageable, policySearchRequest));
     }
 
     // 리스트 추천
     @PostMapping("/policies/recommend")
     public ResponseEntity<Page<PolicyResponse>> recommend (
+            Pageable pageable,
             @AuthenticationPrincipal User user
     ) {
-        return ResponseEntity.ok(policyService.recommend(user.getId()));
+        return ResponseEntity.ok(policyService.recommend(pageable, user.getId()));
     }
 
     private final PolicyTransferScheduler policyTransferScheduler;
