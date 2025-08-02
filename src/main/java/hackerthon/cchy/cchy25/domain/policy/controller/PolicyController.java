@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static hackerthon.cchy.cchy25.domain.user.entity.QUser.user;
+
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
@@ -36,9 +38,10 @@ public class PolicyController {
     @PostMapping("/policies/search")
     public ResponseEntity<Page<PolicyResponse>> queryPolicies(
             Pageable pageable,
-            @RequestBody PolicySearchRequest policySearchRequest
-            ) {
-        return ResponseEntity.ok(policyService.searchPolicies(pageable, policySearchRequest));
+            @RequestBody PolicySearchRequest policySearchRequest,
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(policyService.searchPolicies(pageable, policySearchRequest, user.getId()));
     }
 
     // 리스트 추천

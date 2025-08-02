@@ -37,11 +37,12 @@ public class PolicyService {
         return PolicyResponse.from(policy, false);
     }
 
-    public Page<PolicyResponse> searchPolicies(Pageable pageable, PolicySearchRequest policySearchRequest) {
+    public Page<PolicyResponse> searchPolicies(Pageable pageable, PolicySearchRequest policySearchRequest, Long userId) {
 
         return policySearchRepository.search(
                 pageable,
-                policySearchRequest
+                policySearchRequest,
+                userId
         );
     }
 
@@ -73,7 +74,8 @@ public class PolicyService {
         return policySearchRepository.search(
 //                PageRequest.of(0, 3),
                 pageable,
-                PolicySearchRequest.from(diagnosis)
+                PolicySearchRequest.from(diagnosis),
+                userId
         );
     }
 }
