@@ -95,6 +95,12 @@ public class PolicyBatchConfiguration {
                         .map(SupportTarget::fromString)
                         .collect(Collectors.toSet());
 
+                var supportCategories = Arrays.stream(sourcePolicy.getSupportCategory().split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .map(SupportCategory::fromString)
+                        .collect(Collectors.toSet());
+
                 return Policy.builder()
                         .sourceId(sourcePolicy.getId())
                         .title(sourcePolicy.getTitle())
@@ -111,7 +117,7 @@ public class PolicyBatchConfiguration {
                         .years(sourcePolicy.getYears())
                         .minAmount(sourcePolicy.getMinAmount())
                         .maxAmount(sourcePolicy.getMaxAmount())
-                        .supportCategory(SupportCategory.fromString(sourcePolicy.getSupportCategory()))
+                        .supportCategories(supportCategories)
                         .applyMethods(applyMethods)
                         .evaluationMethods(evaluationMethods)
                         .targets(supportTargets)

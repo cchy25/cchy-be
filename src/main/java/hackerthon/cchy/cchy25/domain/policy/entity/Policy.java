@@ -46,8 +46,12 @@ public class Policy extends BaseEntity {
     @Builder.Default
     private Set<SupportField> supportFields = new HashSet<>(); // 사업 분야
 
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "policy_support_support_categories", joinColumns = @JoinColumn(name = "policy_id"))
     @Enumerated(EnumType.STRING)
-    private SupportCategory supportCategory; // 정책 종류
+    @Builder.Default
+    private Set<SupportCategory> supportCategories = new HashSet<>(); // 사업 분야
 
     private String organization;
 

@@ -2,9 +2,7 @@ package hackerthon.cchy.cchy25.domain.diagnosis.entity;
 
 import hackerthon.cchy.cchy25.common.entity.BaseEntity;
 import hackerthon.cchy.cchy25.domain.diagnosis.dto.DiagnosisRequest;
-import hackerthon.cchy.cchy25.domain.policy.entity.RegionCode;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportField;
-import hackerthon.cchy.cchy25.domain.policy.entity.SupportTarget;
+import hackerthon.cchy.cchy25.domain.policy.entity.*;
 import hackerthon.cchy.cchy25.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -87,11 +85,28 @@ public class Diagnosis extends BaseEntity {
     @Builder.Default
     private Set<SupportField> supportFields = new HashSet<>();
 
+    @CollectionTable(name = "diagnosis_support_categories", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<SupportCategory> supportCategories= new HashSet<>();
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "diagnosis_support_targets", joinColumns = @JoinColumn(name = "diagnosis_id"))
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<SupportTarget> targets = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "diagnosis_support_evaluation_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<EvaluationMethod> evaluationMethods = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "diagnosis_support_evaluation_apply_methods", joinColumns = @JoinColumn(name = "diagnosis_id"))
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<ApplyMethod> applyMethods = new HashSet<>();
 
     public void updateSelective(DiagnosisRequest request) {
         if (request.getHasItem() != null) this.hasItem = request.getHasItem();
@@ -105,5 +120,6 @@ public class Diagnosis extends BaseEntity {
         if (request.getRegions() != null) this.regions = request.getRegions();
         if (request.getSupportFields() != null) this.supportFields = request.getSupportFields();
         if (request.getTargets() != null) this.targets = request.getTargets();
+        if (request.getSupportCategories() != null) this.supportCategories = request.getSupportCategories();
     }
 }
