@@ -38,7 +38,7 @@ public class PolicyService {
         var policy = policyRepository.findById(policyId)
                 .orElseThrow(() -> new PolicyException(PolicyErrorCode.NOT_FOUND));
 
-        return PolicyResponse.from(policy);
+        return PolicyResponse.from(policy, false);
     }
 
     public Page<PolicyResponse> searchPolicies(Pageable pageable, PolicySearchRequest policySearchRequest) {

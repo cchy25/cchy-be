@@ -1,58 +1,40 @@
 package hackerthon.cchy.cchy25.domain.policy.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import hackerthon.cchy.cchy25.domain.policy.entity.Policy;
 import hackerthon.cchy.cchy25.domain.policy.entity.PolicyStatus;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.AnyKeyJavaClass;
 
 @Getter
 @Builder
-@AllArgsConstructor
 public class PolicyResponse {
 
-    private String title;
-    private String summary;
-    private String url;
-    private Integer accuracy;
-    private Boolean bookmarked; //Bookmark 엔티티()
-    private PolicyStatus policyStatus; // PolicyStatus 열거형
+    private final String title;
+    private final String summary;
+    private final String url;
+    private final Integer accuracy;
+    private final Boolean bookmarked;
+//    private final PolicyStatus policyStatus;
 
-    public static PolicyResponse from(Policy policy) {
-        return PolicyResponse.builder()
-                .title(policy.getTitle())
-                .url(policy.getUrl())
-                .summary(policy.getSummary())
-                .build();
+    @Builder
+    @QueryProjection
+    public PolicyResponse(String title, String summary, String url, Integer accuracy, Boolean bookmarked){//, PolicyStatus policyStatus) {
+        this.title = title;
+        this.summary = summary;
+        this.url = url;
+        this.accuracy = accuracy;
+        this.bookmarked = bookmarked != null && bookmarked;
+//        this.policyStatus = policyStatus;
     }
 
-    public static PolicyResponse from(Policy policy, PolicySearchRequest policySearchRequest) {
+    public static PolicyResponse from(Policy policy, boolean b) {
         return PolicyResponse.builder()
                 .title(policy.getTitle())
-                .url(policy.getUrl())
                 .summary(policy.getSummary())
-                .accuracy(calcAccuracy(policy, policySearchRequest))
+                .url(policy.getUrl())
+                .bookmarked(b) // 북마크 목록은 accuracy 필요없음
                 .build();
-    }
-
-    private static Integer calcAccuracy(Policy policy, PolicySearchRequest policySearchRequest) {
-        // avg((정책의 지역이고 요청에 존재하는 수 / 요청의 지역 수) + (정책의 타겟이고 요청에 존재하는 수 / 요청의 타겟 수) ... )
-        double regionAccuracy = (double) (policy.getRegions().stream()
-                .filter(s->policySearchRequest.getRegions().contains(s))
-                .count()) / (policySearchRequest.getRegions().stream().count());
-
-        double fieldAccuracy = (double) (policy.getSupportFields().stream()
-                .filter(s->policySearchRequest.getSupportFields().contains(s))
-                .count()) / (policySearchRequest.getSupportFields().stream().count());
-
-        double targetAccuracy = (double) (policy.getTargets().stream()
-                .filter(s->policySearchRequest.getSupportTargets().contains(s))
-                .count()) / (policySearchRequest.getSupportTargets().stream().count());
-
-        double categoryAccuracy = (double) (policy.getSupportCategories().stream()
-                .filter(s->policySearchRequest.getSupportCategories().contains(s))
-                .count()) / (policySearchRequest.getSupportCategories().stream().count());
-
-        return (int) Math.round(((regionAccuracy + fieldAccuracy + targetAccuracy + categoryAccuracy) / 4.0) * 100);
     }
 }
