@@ -26,6 +26,43 @@ public class PolicySearchRepositoryImpl implements PolicySearchRepository{
         QPolicy policy = QPolicy.policy;
         BooleanBuilder builder = new BooleanBuilder();
 
+
+        if (request.getHasModel() != null) {
+            builder.and(policy.hasModel.eq(request.getHasModel()));
+        }
+
+        if (request.getHasCapital() != null) {
+            builder.and(policy.hasCapital.eq(request.getHasCapital()));
+        }
+
+        if (request.getHasPlanner() != null) {
+            builder.and(policy.hasPlanner.eq(request.getHasPlanner()));
+        }
+
+        if (request.getHasItem() != null) {
+            builder.and(policy.hasItem.eq(request.getHasItem()));
+        }
+
+        if (request.getHasSpace() != null) {
+            builder.and(policy.hasSpace.eq(request.getHasSpace()));
+        }
+
+        if (request.getHasEdu() != null) {
+            builder.and(policy.hasEdu.eq(request.getHasEdu()));
+        }
+
+        if (request.getHasTeam() != null) {
+            builder.and(policy.hasTeam.eq(request.getHasTeam()));
+        }
+
+        if (request.getHasMentor() != null) {
+            builder.and(policy.hasMentor.eq(request.getHasMentor()));
+        }
+
+        if (request.getIsRegistered() != null) {
+            builder.and(policy.isRegistered.eq(request.getIsRegistered()));
+        }
+
         // 지역 필터
         if (request.getRegions() != null && !request.getRegions().isEmpty()) {
             builder.and(policy.regions.any().in(request.getRegions()));

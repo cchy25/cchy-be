@@ -31,7 +31,7 @@ public class DiagnosisResponse {
 
     private Boolean isRegistered;
 
-    private LocalDateTime launchAt;
+//    private LocalDateTime launchAt;
 
     private Integer years;
 
@@ -53,7 +53,7 @@ public class DiagnosisResponse {
                 .hasModel(Boolean.TRUE.equals(diagnosis.getHasModel()))
                 .hasCapital(Boolean.TRUE.equals(diagnosis.getHasCapital()))
                 .hasSpace(Boolean.TRUE.equals(diagnosis.getHasSpace()))
-                .launchAt(diagnosis.getLaunchAt())
+//                .launchAt(diagnosis.getLaunchAt())
                 .years(diagnosis.getYears())
                 .regions(diagnosis.getRegions())
                 .supportFields(diagnosis.getSupportFields())

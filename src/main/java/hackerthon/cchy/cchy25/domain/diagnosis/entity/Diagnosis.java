@@ -66,8 +66,8 @@ public class Diagnosis extends BaseEntity {
     @Builder.Default
     private Boolean isRegistered = false;
 
-    @Column(nullable = false)
-    private LocalDateTime launchAt;
+//    @Column(nullable = false)
+//    private LocalDateTime launchAt;
 
     @Column(nullable = false)
     private Integer years;
@@ -115,7 +115,8 @@ public class Diagnosis extends BaseEntity {
         if (request.getHasModel() != null) this.hasModel = request.getHasModel();
         if (request.getHasCapital() != null) this.hasCapital = request.getHasCapital();
         if (request.getHasSpace() != null) this.hasSpace = request.getHasSpace();
-        if (request.getLaunchAt() != null) this.launchAt = request.getLaunchAt();
+//        if (request.getLaunchAt() != null) this.launchAt = request.getLaunchAt();
+
         if (request.getYears() != null) this.years = request.getYears();
         if (request.getRegions() != null) this.regions = request.getRegions();
         if (request.getSupportFields() != null) this.supportFields = request.getSupportFields();

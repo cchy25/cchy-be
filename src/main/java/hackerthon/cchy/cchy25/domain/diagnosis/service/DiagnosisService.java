@@ -32,14 +32,14 @@ public class DiagnosisService {
 
         var newDiagnosis = Diagnosis.builder()
                 .user(User.builder().id(userId).build())
-                .hasItem(Boolean.TRUE.equals(diagnosisRequest.getHasItem()))
+                .hasItem(Boolean.TRUE.equals(diagnosisRequest.getHasItem())) //TODO : 카테고리화
                 .hasTeam(Boolean.TRUE.equals(diagnosisRequest.getHasTeam()))
                 .hasMentor(Boolean.TRUE.equals(diagnosisRequest.getHasMentor()))
                 .hasModel(Boolean.TRUE.equals(diagnosisRequest.getHasModel()))
                 .hasCapital(Boolean.TRUE.equals(diagnosisRequest.getHasCapital()))
                 .hasSpace(Boolean.TRUE.equals(diagnosisRequest.getHasSpace()))
-                .launchAt(diagnosisRequest.getLaunchAt())
-                .years(diagnosisRequest.getYears())
+//                .launchAt(diagnosisRequest.getLaunchAt())
+                .years(diagnosisRequest.getYears()) //TODO : nullable
                 .regions(diagnosisRequest.getRegions())
                 .supportFields(diagnosisRequest.getSupportFields())
                 .supportCategories(diagnosisRequest.getSupportCategories())

@@ -70,12 +70,13 @@ public class PolicyService {
     }
 
 
-    public Page<PolicyResponse> recommend(Long userId) {
+    public Page<PolicyResponse> recommend(Pageable pageable, Long userId) {
         var diagnosis = diagnosisRepository.findTop1ByUserIdOrderByCreateAtDesc(userId)
                 .orElseThrow(() -> new PolicyException(PolicyErrorCode.NOT_FOUND));
 
         return policySearchRepository.search(
-                PageRequest.of(0, 3),
+//                PageRequest.of(0, 3),
+                pageable,
                 PolicySearchRequest.from(diagnosis)
         );
     }
